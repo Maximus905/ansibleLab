@@ -1,0 +1,78 @@
+- hosts: nodes
+  vars:
+    proxy: http://10.4.68.213:3128
+    no_proxy: localhost,127.0.0.1,localhost,*.rs.ru
+    prerequisite_pkg:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg-agent
+    - software-properties-common
+    docker_compose_url: https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64
+    docker_compose_checksum: "sha256:https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64.sha256"
+# for ubuntu disco in May of 2019 docker-ce exists only in test repo
+#    linux_release: {{ ansible_distribution_release }}
+    linux_release: bionic
+  tasks:
+# docker
+    - name: install prerequisite packages
+      apt:
+        name: "{{ prerequisite_pkg }}"
+      become: yes
+    - name: add key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+      become: yes
+    - name: add docker repo
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ linux_release }} edge"
+      become: yes
+    - name: install Docker packages
+      apt:
+        name: "{{ docker_pkgs }}"
+      become: yes
+      vars:
+        docker_pkgs:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+    - name: append current user to docker group
+      user:
+        name: "{{ ansible_user_id }}"
+        groups: docker
+        append: yes
+      become: yes
+# docker-compose
+    - name: install docker-compose
+      get_url:
+        url: "{{ docker_compose_url }}"
+        checksum: "{{ docker_compose_checksum }}"
+        dest: /usr/local/bin/docker-compose
+        mode: "a+x"
+      become: yes
+#set proxy
+    - name: create directroy for http-proxy.conf
+      file:
+        path: /etc/systemd/system/docker.service.d
+        state: directory
+      become: yes
+    - name: set proxy config for docker
+      template:
+        src: docker-http-proxy-conf.j2
+        dest: /etc/systemd/system/docker.service.d/http-proxy.conf
+      when: proxy is defined
+      become: yes
+      notify:
+        - reload daemon
+        - restart docker daemon
+    - debug:
+        msg: "Don't forget to relogin for applying docker group for current user"
+  handlers:
+    - name: reload daemon
+      command: systemctl daemon-reload
+      become: yes
+    - name: restart docker daemon
+      service:
+        name: docker
+        state: restarted
+      become: yes

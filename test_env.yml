@@ -1,0 +1,21 @@
+- hosts: localhost
+  vars:
+    proxy: http://10.4.68.213:3128
+    no_proxy: 127.0.0.1,localhost,*.rs.ru
+  tasks:
+    - name: test var
+      debug:
+        msg: "{{ proxy }}"
+      when: proxy is defined
+    - name: using template module
+      template:
+        src: docker-http-proxy-conf.j2
+        dest: /etc/systemd/system/docker.service.d/http-proxy.conf
+      when: proxy is defined
+      notify:
+        - restart docker daemon
+  handlers:
+    - name: restart docker daemon
+      systemd:
+        daemon_reload: yes
+        name: docker  
