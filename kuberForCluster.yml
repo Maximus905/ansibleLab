@@ -3,6 +3,7 @@
   vars:
     prerequisite_pkgs:
       - apt-transport-https
+      - bash-completion
     repo_key: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     apt_repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
   tasks:
@@ -15,6 +16,20 @@
       apt_repository:
         repo: "{{ apt_repo }}"
         update_cache: yes
+      become: yes
+    - name: install prerequisite packages
+      apt:
+        name: "{{ prerequisite_pkgs }}"
+      become: yes
+    - name: Disable swapoff
+      shell: swapoff -a
+      become: yes
+    - name: Disable swapoff permanently
+      replace:
+        path: /etc/fstab
+        regexp: '^(\s*)([^#\n]+\s+)(\w+\s+)swap(\s+.*)$'
+        replace: '#\1\2\3swap\4'
+        backup: yes
       become: yes
 - hosts: master
   vars:
