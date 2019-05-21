@@ -1,0 +1,18 @@
+- hosts: master
+  vars:
+    kubectl_ver: v1.14.0
+    minikube_url: https://storage.googleapis.com/minikube/releases/v1.0.1/minikube-linux-amd64
+    kubectl_url: https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_ver }}/bin/linux/amd64/kubectl
+  tasks:
+  - name: install minikube
+    get_url:
+      url: "{{ minikube_url }}"
+      dest: /usr/local/bin/minikube
+      mode: "a+x"
+    become: yes
+  - name: install kubectl
+    get_url:
+      url: "{{ kubectl_url }}"
+      dest: /usr/local/bin/kubectl
+      mode: "a+x"
+    become: yes

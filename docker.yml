@@ -1,7 +1,7 @@
-- hosts: nodes
+- hosts: all
   vars:
     proxy: http://10.4.68.213:3128
-    no_proxy: localhost,127.0.0.1,localhost,*.rs.ru
+    no_proxy: localhost,127.0.0.1,localhost,*.rs.ru,192.168.0.0/16,10.0.0.0/8
     prerequisite_pkg:
     - apt-transport-https
     - ca-certificates
@@ -18,6 +18,7 @@
     - name: install prerequisite packages
       apt:
         name: "{{ prerequisite_pkg }}"
+      update_cache: yes
       become: yes
     - name: add key
       apt_key:

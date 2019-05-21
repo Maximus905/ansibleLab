@@ -1,0 +1,39 @@
+---
+- hosts: all
+  vars:
+    prerequisite_pkgs:
+      - apt-transport-https
+    repo_key: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    apt_repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+  tasks:
+    - name: install repo's keys
+      apt_key:
+        url: "{{ repo_key }}"
+        state: present
+      become: yes
+    - name: append apt repo
+      apt_repository:
+        repo: "{{ apt_repo }}"
+        update_cache: yes
+      become: yes
+- hosts: master
+  vars:
+    package_list:
+      - kubeadm
+      - kubelet
+      - kubectl
+  tasks:
+    - name: install packages for controller node  
+      apt:
+        name: "{{ package_list }}"
+      become: yes
+- hosts: nodes
+  vars:
+    package_list:
+      - kubelet
+  tasks:
+    - name: install packages for worker nodes
+      apt:
+        name: "{{ package_list }}"
+      become: yes
+
