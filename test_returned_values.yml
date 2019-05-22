@@ -1,0 +1,6 @@
+- hosts: localhost
+  tasks:
+  - name: get shell command result
+    shell: kubectl completion bash > test
+
+    

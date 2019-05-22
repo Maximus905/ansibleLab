@@ -42,10 +42,14 @@
       apt:
         name: "{{ package_list }}"
       become: yes
+    - name: get kubectl bash completion string
+      shell: kubectl completion bash > /etc/bash_completion.d/kubectl
+      become: yes
 - hosts: nodes
   vars:
     package_list:
       - kubelet
+      - kubeadm
   tasks:
     - name: install packages for worker nodes
       apt:
