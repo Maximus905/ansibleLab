@@ -1,0 +1,6 @@
+- apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+  become: yes
+- apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ linux_release }} edge"
+  become: yes

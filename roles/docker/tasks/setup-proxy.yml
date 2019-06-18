@@ -1,0 +1,14 @@
+- file:
+    path: /etc/systemd/system/docker.service.d
+    state: directory
+  become: yes
+- template:
+    src: docker-http-proxy-conf
+    dest: /etc/systemd/system/docker.service.d/http-proxy.conf
+  when: proxy is defined
+  become: yes
+  notify:
+    - reload daemon
+    - restart docker daemon
+- debug:
+    msg: "Don't forget to relogin for applying docker group for current user"

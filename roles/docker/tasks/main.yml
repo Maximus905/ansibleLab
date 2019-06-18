@@ -1,0 +1,7 @@
+- name: add repo
+  import_tasks: add_repos.yml
+- name: install docker
+  import_tasks: docker.yml
+- name: set up proxy for docker
+  import_tasks: setup-proxy.yml
+

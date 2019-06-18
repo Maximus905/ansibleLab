@@ -1,0 +1,13 @@
+proxy: http://10.4.68.213:3128
+no_proxy: localhost,127.0.0.1,localhost,*.rs.ru,192.168.0.0/16,10.0.0.0/8
+prerequisite_pkg:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg-agent
+  - software-properties-common
+docker_compose_url: https://github.com/docker/compose/releases/download/1.24.0/ocker-compose-Linux-x86_64
+docker_compose_checksum: "sha256:https://github.com/docker/compose/releases/download/1.24.0/ocker-compose-Linux-x86_64.sha256"
+# for ubuntu disco in May of 2019 docker-ce exists only in test repo
+#    linux_release: {{ ansible_distribution_release }}
+linux_release: bionic

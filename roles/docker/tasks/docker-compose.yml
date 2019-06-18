@@ -1,0 +1,8 @@
+# docker-compose
+- name: install docker-compose
+  get_url:
+    url: "{{ docker_compose_url }}"
+    checksum: "{{ docker_compose_checksum }}"
+    dest: /usr/local/bin/docker-compose
+    mode: "a+x"
+  become: yes

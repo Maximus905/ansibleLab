@@ -1,0 +1,16 @@
+all:
+  hosts:
+    localhost:
+      ansible_host: localhost
+      ansible_connection: local
+    node1:
+      ansible_host: 68.183.223.36
+      ansible_connection: ssh
+  children:
+    master:
+      hosts:
+        localhost:
+    nodes:
+      hosts:
+        node1:
+        

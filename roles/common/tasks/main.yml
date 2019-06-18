@@ -1,0 +1,11 @@
+- name: install prerequisite packages
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+    update_cache: yes
+    cache_valid_time: 7200
+  become: yes

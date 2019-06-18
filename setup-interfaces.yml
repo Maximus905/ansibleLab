@@ -1,0 +1,19 @@
+- hosts: localhost
+  tasks:
+    - name: change eth0 config
+      template:
+        src: setup-interfaces.j2
+        dest: /etc/netplan/10-netcfg.yaml
+      notify: 
+        - apply netplan
+        - restart network
+      become: yes
+  handlers:
+    - name: apply netplan
+      shell: netplan apply
+      become: yes
+    - name: restart network
+      service:
+        name: systemd-networkd
+        state: restarted
+      become: yes

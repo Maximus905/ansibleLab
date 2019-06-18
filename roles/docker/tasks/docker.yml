@@ -1,0 +1,15 @@
+# install Docker packages
+- apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    update_cache: yes
+    cache_valid_time: 7200
+  become: yes    
+# append current user to docker group
+- user:
+    name: "{{ ansible_user_id }}"
+    groups: docker
+    append: yes
+  become: yes

@@ -1,0 +1,16 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      dhcp4: true
+      dhcp6: false
+      optional: true
+      dhcp4-overrides:
+        use-routes: false
+    eth1:
+      routes:
+        - to: 0.0.0.0/0
+          via: "{{ gw_interface }}"
+          metric: 10
+          
