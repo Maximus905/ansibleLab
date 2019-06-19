@@ -1,5 +1,6 @@
 - hosts: localhost
   roles:
-#    - common
+    - common
+    - setup_network
 #    - docker
-    - setup_networks
+#    - kubernetes_master

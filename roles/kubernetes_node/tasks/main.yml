@@ -1,0 +1,4 @@
+- import_tasks: common_tasks.yml
+- import_tasks: install_kuber.yml
+
+

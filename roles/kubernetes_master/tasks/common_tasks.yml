@@ -1,0 +1,24 @@
+- name: install repo's keys
+  apt_key:
+    url: "{{ repo_key }}"
+    state: present
+  become: yes
+- name: append apt repo
+  apt_repository:
+    repo: "{{ apt_repo }}"
+    update_cache: yes
+  become: yes
+- name: install prerequisite packages
+  apt:
+    name: "{{ prerequisite_pkgs }}"
+  become: yes
+- name: Disable swapoff
+  shell: swapoff -a
+  become: yes
+- name: Disable swapoff permanently
+  replace:
+    path: /etc/fstab
+    regexp: '^(\s*)([^#\n]+\s+)(\w+\s+)swap(\s+.*)$'
+    replace: '#\1\2\3swap\4'
+    backup: yes
+  become: yes

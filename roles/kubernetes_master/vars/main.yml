@@ -1,0 +1,9 @@
+prerequisite_pkgs:
+      - apt-transport-https
+      - bash-completion
+repo_key: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+apt_repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+package_list:
+  - kubeadm
+  - kubelet
+  - kubectl

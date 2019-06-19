@@ -1,0 +1,18 @@
+- name: Configure the Oracle public key
+  apt_key: 
+    url: "{{ item }}"
+    state: present
+  loop:
+    - "https://www.virtualbox.org/download/oracle_vbox_2016.asc"
+    - "https://www.virtualbox.org/download/oracle_vbox.asc"
+  become: yes
+- name: add repo
+  apt_repository:
+    repo: deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian {{ ansible_distribution_release }} contrib
+    state: present
+  become: yes
+- name: install pkg
+  apt:
+    name: virtualbox-{{ vbox_version }}
+    update_cache: yes
+  become: yes

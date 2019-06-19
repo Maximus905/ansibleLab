@@ -1,3 +1,10 @@
+- name: update netplan
+  apt:
+    name:
+      - netplan.io
+    state: latest
+  become: yes
+  
 - name: install prerequisite packages
   apt:
     name:
@@ -6,6 +13,10 @@
       - curl
       - gnupg-agent
       - software-properties-common
+      - netplan.io
+      - iftop
+      - iptraf
+      - iptraf-ng
     update_cache: yes
     cache_valid_time: 7200
   become: yes

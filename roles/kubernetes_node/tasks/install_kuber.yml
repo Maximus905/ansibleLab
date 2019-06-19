@@ -1,0 +1,4 @@
+- name: install packages for worker node  
+  apt:
+    name: "{{ package_list }}"
+  become: yes

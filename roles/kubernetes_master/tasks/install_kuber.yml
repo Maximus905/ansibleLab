@@ -1,0 +1,7 @@
+- name: install packages for controller node  
+  apt:
+    name: "{{ package_list }}"
+  become: yes
+- name: get kubectl bash completion string
+  shell: kubectl completion bash > /etc/bash_completion.d/kubectl
+  become: yes
