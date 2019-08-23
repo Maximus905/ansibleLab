@@ -1,1 +1,5 @@
-kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')&env.IPALLOC_RANGE=192.168.10.0/24
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')&env.IPALLOC_RANGE=192.168.10.0/24"
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+
+kubeadm join 192.168.1.10:6443 --token xu8x9f.j391vvj1ktp3o4vt \
+    --discovery-token-ca-cert-hash sha256:e6f09144327c0c72611a3c0ac1b5e94bdaa0471c548b60889f7ccd5602bb7060

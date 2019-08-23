@@ -1,0 +1,15 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      dhcp4: false
+      dhcp6: false
+      optional: true
+      dhcp4-overrides:
+        use-routes: false
+    eth1:
+      routes:
+        - to: 0.0.0.0/0
+          via: "{{ default_gw_interface }}"
+          metric: 10

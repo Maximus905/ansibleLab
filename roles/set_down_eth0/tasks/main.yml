@@ -1,0 +1,8 @@
+- name: change eth0 config
+  template:
+    src: setup-interfaces.yml
+    dest: /etc/netplan/10-netcfg.yaml
+  notify: 
+    - apply netplan
+    - restart network
+  become: yes

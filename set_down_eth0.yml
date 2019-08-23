@@ -1,0 +1,3 @@
+- hosts: all
+  roles:
+    - set_down_eth0
