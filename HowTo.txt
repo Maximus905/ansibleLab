@@ -1,0 +1,3 @@
+# after deploy VMs via Vagrant to disable vagrant's interface eth0 and change routes:
+ansible-playbook -i workInventory.yml set_down_eth0.yml
+# after that eth0 will be disabled and default route will be set to default_gw_interface value
